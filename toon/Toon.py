@@ -117,11 +117,11 @@ class Toon:
                             "random": uuid.uuid1()}
                 r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/setPoint", params=formdata)
 
-	def get_program_state(self):
-		self.retrieve_toon_state()
-		return self.toonstate["thermostatInfo"]["activeState"]
+	    def get_program_state(self):
+		        self.retrieve_toon_state()
+		        return self.toonstate["thermostatInfo"]["activeState"]
 
-	def set_program_state(self,targetstate):
+	    def set_program_state(self,targetstate):
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
                             "state": 2,
