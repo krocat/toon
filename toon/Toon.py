@@ -70,12 +70,12 @@ class Toon:
                            self.toonstate = r.json()
                            return
                         else:
-                        	self.logout()
-                        	raise Exception("retrieve status: ", r.status_code)
+                            self.logout()
+                            raise Exception("retrieve status: ", r.status_code)
 
         def refresh_toon_state(self):
-        	# refreshing the session helps with the keep-alive.
-        	
+            # refreshing the session helps with the keep-alive.
+            
                 # Now re-use the agreement details to do the actual
                 # authentication. This establishes a session, and allows
                 # state to be retrieved.
@@ -88,7 +88,7 @@ class Toon:
                             "random": uuid.uuid4()}
                 r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/start", params=formdata)
                 if r.status_code == 200:
-                	 return
+                    return
                 else:
                    self.logout()
                    raise Exception("refresh status: ", r.status_code)
@@ -117,11 +117,10 @@ class Toon:
                             "random": uuid.uuid1()}
                 r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/setPoint", params=formdata)
 
-	    def get_program_state(self):
-		        self.retrieve_toon_state()
-		        return self.toonstate["thermostatInfo"]["activeState"]
-
-	    def set_program_state(self,targetstate):
+        def get_program_state(self):
+                self.retrieve_toon_state()
+                return self.toonstate["thermostatInfo"]["activeState"]
+        def set_program_state(self,targetstate):
                 formdata = {"clientId": self.sessiondata["clientId"],
                             "clientIdChecksum": self.sessiondata["clientIdChecksum"],
                             "state": 2,
