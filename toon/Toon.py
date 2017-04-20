@@ -20,7 +20,7 @@ class Toon:
                 self.debug = 0
                 self.max_retries = 3
                 self.retry_interval = 1
-                self.required_datakeys = [ 'deviceStatusInfo', 'gasUsage', 'powerUsage', 'thermostatInfo' ]
+                self.required_datakeys = ['gasUsage', 'powerUsage', 'thermostatInfo' ]
 
         def login(self):
                 """ Log in to the toon API, and set up a session. """
@@ -61,17 +61,15 @@ class Toon:
                 while not all(x in self.toonstate for x in self.required_datakeys):
                         retries += 1
                         if retries > self.max_retries:
-                                raise Exception('Incomplete response')
+                                return self.toonstate
                         elif retries > 1:
                                 time.sleep(self.retry_interval)
 
                         r = requests.get("https://toonopafstand.eneco.nl/toonMobileBackendWeb/client/auth/retrieveToonState", params=formdata)
-                        if r.status_code == 200:
-                           self.toonstate = r.json()
-                           return
-                        else:
-                            self.logout()
-                            raise Exception("retrieve status: ", r.status_code)
+                        
+                        self.toonstate = r.json()
+                
+                return self.toonstate
 
         def refresh_toon_state(self):
             # refreshing the session helps with the keep-alive.
